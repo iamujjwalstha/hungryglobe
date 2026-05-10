@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hungry Globe — Eat Global, Think Local</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --cream:#fbf1df;
+      --paper:#f6e7cc;
+      --paper-2:#fff8ec;
+      --green:#103b2b;
+      --green-2:#1f5b40;
+      --orange:#c85d28;
+      --orange-2:#e28942;
+      --brown:#6f4c32;
+      --ink:#26352d;
+      --muted:#775f4c;
+      --gold:#d89b27;
+      --shadow: 0 20px 45px rgba(44,28,12,.14);
+      --line: rgba(38,53,45,.35);
+      --radius: 28px;
+    }
+
+    *{ box-sizing:border-box; }
+
+    html{ scroll-behavior:smooth; }
+
+    body{
+      margin:0;
+      color:var(--ink);
+      font-family:"Inter", system-ui, sans-serif;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(200,93,40,.12), transparent 28%),
+        radial-gradient(circle at 90% 18%, rgba(31,91,64,.11), transparent 28%),
+        linear-gradient(90deg, rgba(111,76,50,.045) 1px, transparent 1px),
+        linear-gradient(rgba(111,76,50,.04) 1px, transparent 1px),
+        var(--cream);
+      background-size:auto, auto, 34px 34px, 34px 34px, auto;
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.36;
+      background-image:url("data:image/svg+xml,%3Csvg width='160' height='160' viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' bas[...]
+      mix-blend-mode:multiply;
+      z-index:20;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    img{ max-width:100%; display:block; }
+
+    .hand{ font-family:"Gaegu", cursive; letter-spacing:.02em; }
+    .container{ width:min(1180px, calc(100% - 34px)); margin-inline:auto; }
+
+    .sketch-border{
+      border:2px solid var(--line);
+      border-radius:var(--radius);
+      position:relative;
+    }
+    .sketch-border::after{
+      content:"";
+      position:absolute;
+      inset:7px -6px -6px 7px;
+      border:1.5px dashed rgba(38,53,45,.23);
+      border-radius:inherit;
+      pointer-events:none;
+      z-index:0;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      border-radius:999px;
+      border:2px solid rgba(255,255,255,.66);
+      padding:13px 22px;
+      font-weight:800;
+      box-shadow:0 10px 24px rgba(0,0,0,.16);
+      cursor:pointer;
+      transition:.25s ease;
+      font-family:"Gaegu", cursive;
+      font-size:1.22rem;
+      position:relative;
+      isolation:isolate;
+      white-space:nowrap;
+    }
+    .btn:hover{ transform:translateY(-3px) rotate(-1deg); }
+    .btn.green{ background:var(--green); color:#fff7e8; }
+    .btn.orange{ background:var(--orange); color:#fff7e8; }
+    .btn.light{ background:var(--paper-2); color:var(--green); border-color:rgba(16,59,43,.22); box-shadow:none; }
+
+    .section-title{
+      font-family:"Gaegu", cursive;
+      font-size:clamp(2.5rem,5vw,4.5rem);
+      line-height:.88;
+      margin:0;
+      color:var(--green);
+    }
+
+    .section-kicker{
+      margin:0 0 10px;
+      color:var(--orange);
+      font-weight:900;
+      letter-spacing:.15em;
+      text-transform:uppercase;
+      font-size:.78rem;
+    }
+
+    .scribble{
+      position:absolute;
+      color:rgba(255,255,255,.82);
+      font-family:"Gaegu", cursive;
+      pointer-events:none;
+      filter:drop-shadow(0 2px 3px rgba(0,0,0,.2));
+    }
+
+    .doodle{
+      position:absolute;
+      pointer-events:none;
+      opacity:.75;
+      color:var(--green);
+      font-family:"Gaegu", cursive;
+      font-weight:700;
+    }
+
+    header{
+      position:sticky;
+      top:0;
+      z-index:10;
+      background:rgba(251,241,223,.92);
+      backdrop-filter:blur(16px);
+      border-bottom:1px solid rgba(111,76,50,.16);
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      min-height:84px;
+      gap:22px;
+    }
+
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      color:var(--green);
+      min-width:max-content;
+    }
+    .logo-mark{
+      width:57px;
+      height:57px;
+      border:3px solid var(--green);
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:#fff7e7;
+      transform:rotate(-5deg);
+      box-shadow:4px 5px 0 rgba(200,93,40,.23);
+      font-size:1.75rem;
+    }
+    .logo-text strong{
+      display:block;
+      font-family:"Gaegu", cursive;
+      font-size:1.95rem;
+      line-height:.75;
+    }
+    .logo-text span{
+      display:block;
+      font-family:"Gaegu", cursive;
+      font-size:.9rem;
+      color:var(--brown);
+      margin-top:5px;
+    }
+
+    nav ul{
+      list-style:none;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:clamp(14px,2.8vw,34px);
+      margin:0;
+      padding:0;
+      color:var(--green);
+      font-weight:800;
+    }
+    nav a{
+      position:relative;
+      padding:8px 0;
+    }
+    nav a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:0;
+      height:3px;
+      background:var(--orange);
+      transform:scaleX(0) rotate(-1deg);
+      transform-origin:left;
+      transition:.25s;
+      border-radius:20px;
+    }
+    nav a:hover::after{ transform:scaleX(1) rotate(-1deg); }
+
+    .hero{
+      min-height:690px;
+      display:grid;
+      align-items:center;
+      position:relative;
+      color:#fff9ed;
+      overflow:hidden;
+      border-bottom:8px solid rgba(251,241,223,.9);
+      background:
+        linear-gradient(90deg, rgba(11,34,25,.83), rgba(11,34,25,.45), rgba(200,93,40,.22)),
+        url("https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1800&q=80") center/cover;
+    }
+    .hero::before{
+      content:"";
+      position:absolute;
+      left:-4%;
+      right:-4%;
+      bottom:-55px;
+      height:120px;
+      background:var(--cream);
+      clip-path:polygon(0 35%,5% 44%,11% 32%,19% 47%,28% 31%,38% 46%,48% 35%,59% 51%,70% 33%,82% 48%,91% 34%,100% 44%,100% 100%,0 100%);
+      z-index:1;
+    }
+    .hero-inner{
+      position:relative;
+      z-index:2;
+      max-width:850px;
+      padding:98px 0 130px;
+    }
+    .hero h1{
+      font-family:"Gaegu", cursive;
+      font-size:clamp(4rem,9vw,8.8rem);
+      line-height:.78;
+      max-width:860px;
+      margin:0 0 22px;
+      text-shadow:0 7px 26px rgba(0,0,0,.34);
+    }
+    .hero p{
+      font-size:clamp(1.05rem,2vw,1.35rem);
+      max-width:760px;
+      line-height:1.65;
+      margin:0 0 28px;
+      color:#fff4df;
+      font-weight:600;
+    }
+    
+    .hero-actions{ display:flex; flex-wrap:wrap; gap:16px; }
+
+    .hero-icon{
+      position:absolute;
+      color:rgba(255,248,236,.96);
+      width:86px;
+      height:86px;
+      pointer-events:none;
+      z-index:2;
+      filter:drop-shadow(0 6px 16px rgba(0,0,0,.28));
+      animation:heroFloat 5.5s ease-in-out infinite;
+    }
+    .hero-icon svg{
+      width:100%;
+      height:100%;
+      fill:none;
+      stroke:currentColor;
+      stroke-width:2.4;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+
+    .fork-icon{ top:24%; left:5%; transform:rotate(-18deg); animation-delay:0s; }
+    .spoon-icon{ top:28%; right:8%; width:78px; height:78px; transform:rotate(20deg); animation-delay:.8s; }
+    .globe-icon{ top:17%; right:19%; width:96px; height:96px; transform:rotate(7deg); animation-delay:.3s; }
+    .leaf-icon{ bottom:26%; right:15%; width:82px; height:82px; transform:rotate(-16deg); animation-delay:1.2s; }
+    .spice-icon{ bottom:24%; left:13%; width:92px; height:92px; transform:rotate(16deg); animation-delay:.5s; }
+
+    @keyframes heroFloat{
+      0%,100%{ transform:translateY(0) rotate(var(--r, 0deg)); }
+      50%{ transform:translateY(-12px) rotate(var(--r, 0deg)); }
+    }
+    .fork-icon{ --r:-18deg; }
+    .spoon-icon{ --r:20deg; }
+    .globe-icon{ --r:7deg; }
+    .leaf-icon{ --r:-16deg; }
+    .spice-icon{ --r:16deg; }
+
+    .tabs-wrap{ padding:46px 0 22px; position:relative; }
+    .tabs{
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      align-items:center;
+      flex-wrap:wrap;
+      padding:8px;
+    }
+    .tab{
+      border:0;
+      background:transparent;
+      color:var(--green);
+      padding:13px 22px;
+      font-family:"Gaegu", cursive;
+      font-size:1.65rem;
+      font-weight:700;
+      position:relative;
+      cursor:pointer;
+    }
+    .tab.active::before{
+      content:"";
+      position:absolute;
+      inset:3px 5px;
+      border:2px solid var(--orange);
+      border-radius:50%;
+      transform:rotate(-3deg);
+    }
+    .tab.active::after{
+      content:"";
+      position:absolute;
+      left:18px;
+      right:18px;
+      bottom:6px;
+      height:4px;
+      background:var(--orange);
+      border-radius:99px;
+      transform:rotate(-1deg);
+    }
+
+    .menu-section{ padding:12px 0 78px; position:relative; }
+    .menu-intro{
+      display:flex;
+      justify-content:space-between;
+      gap:24px;
+      align-items:end;
+      margin-bottom:30px;
+    }
+    .menu-intro p{ max-width:620px; margin:0; color:var(--muted); line-height:1.7; font-weight:600; }
+
+    .food-grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:24px;
+    }
+    .food-card{
+      background:rgba(255,248,236,.9);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      padding:12px;
+      transform:rotate(var(--r, 0deg));
+      transition:.28s ease;
+    }
+    .food-card:hover{ transform:translateY(-8px) rotate(0deg); }
+    .food-card img{
+      height:190px;
+      width:100%;
+      object-fit:cover;
+      border-radius:21px;
+      border:1px solid rgba(111,76,50,.18);
+    }
+    .food-card .content{ padding:16px 10px 8px; position:relative; z-index:1; }
+    .food-card h3{
+      margin:0 0 8px;
+      color:var(--green);
+      font-family:"Gaegu", cursive;
+      font-size:2rem;
+      line-height:.95;
+    }
+    .food-card p{ margin:0 0 16px; color:#654c38; line-height:1.5; font-size:.95rem; }
+    .food-foot{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      border:1.8px solid currentColor;
+      border-radius:999px;
+      padding:6px 10px;
+      font-family:"Gaegu", cursive;
+      font-size:1.05rem;
+      font-weight:700;
+      color:var(--green-2);
+      background:rgba(255,255,255,.5);
+    }
+    .price{
+      font-size:1.55rem;
+      font-weight:900;
+      color:var(--green);
+      font-family:"Gaegu", cursive;
+    }
+
+    .specials{
+      background:
+        radial-gradient(circle at 12% 18%, rgba(226,137,66,.15), transparent 22%),
+        linear-gradient(135deg, #0b2e21, var(--green));
+      color:#fff4df;
+      padding:76px 0;
+      position:relative;
+      overflow:hidden;
+    }
+    .specials::before,.specials::after{
+      content:"";
+      position:absolute;
+      left:0; right:0;
+      height:16px;
+      background:repeating-linear-gradient(90deg, transparent 0 18px, rgba(255,255,255,.55) 18px 30px);
+      opacity:.35;
+    }
+    .specials::before{ top:16px; }
+    .specials::after{ bottom:16px; }
+    .specials-grid{
+      display:grid;
+      grid-template-columns:.8fr repeat(3, 1fr);
+      gap:20px;
+      align-items:stretch;
+    }
+    .special-title h2{
+      color:#fff4df;
+      font-family:"Gaegu", cursive;
+      font-size:4.5rem;
+      line-height:.75;
+      margin:0 0 20px;
+    }
+    .special-title p{ line-height:1.7; margin:0; color:#ead8bd; font-weight:600; }
+    .special-card{
+      border:2px dashed rgba(255,248,236,.45);
+      border-radius:26px;
+      padding:22px;
+      background:rgba(255,248,236,.08);
+      position:relative;
+      min-height:270px;
+    }
+    .special-card h3{
+      margin:0 0 15px;
+      color:#ffe4b8;
+      background:#fff4df;
+      color:var(--green);
+      width:max-content;
+      max-width:100%;
+      padding:7px 14px;
+      border-radius:10px;
+      font-family:"Gaegu", cursive;
+      font-size:1.55rem;
+      transform:rotate(-1deg);
+    }
+    .special-card img{
+      width:92px; height:92px; object-fit:cover; border-radius:50%;
+      border:5px solid rgba(255,244,223,.86);
+      margin-bottom:14px;
+    }
+    .special-card p{ margin:0; line-height:1.55; color:#fff5e8; }
+    .special-card .arrow{
+      position:absolute;
+      top:18px; right:18px;
+      font-family:"Gaegu", cursive;
+      font-size:2.4rem;
+      color:var(--orange-2);
+      transform:rotate(28deg);
+    }
+
+    .info-reviews{ padding:78px 0 40px; }
+    .info-card{
+      background:#fff7e8;
+      padding:30px;
+      box-shadow:var(--shadow);
+      display:grid;
+      grid-template-columns:repeat(4, 1fr);
+      gap:22px;
+      margin-bottom:76px;
+    }
+    .info-item{
+      border-right:1px solid rgba(111,76,50,.22);
+      padding-right:16px;
+    }
+    .info-item:last-child{ border-right:0; }
+    .info-item .icon{ font-size:2rem; color:var(--orange); margin-bottom:8px; }
+    .info-item h3{ margin:0 0 10px; font-family:"Gaegu", cursive; font-size:2rem; color:var(--green); }
+    .info-item p{ margin:0; line-height:1.65; color:#654c38; font-weight:600; font-size:.94rem; }
+
+    .reviews-head{ text-align:center; margin-bottom:28px; }
+    .reviews-head .section-title{ display:inline-block; position:relative; }
+    .reviews-head .section-title::before,
+    .reviews-head .section-title::after{
+      content:"♡";
+      color:var(--orange);
+      position:absolute;
+      top:8px;
+      font-size:2rem;
+    }
+    .reviews-head .section-title::before{ left:-45px; transform:rotate(-12deg); }
+    .reviews-head .section-title::after{ right:-45px; transform:rotate(12deg); }
+
+    .review-grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:22px;
+    }
+    .review-card{
+      background:#fff8ec;
+      padding:28px;
+      box-shadow:var(--shadow);
+    }
+    .stars{
+      color:var(--gold);
+      font-family:"Gaegu", cursive;
+      font-size:1.9rem;
+      letter-spacing:4px;
+      margin-bottom:14px;
+      text-shadow:1px 1px 0 rgba(111,76,50,.18);
+    }
+    .review-card blockquote{
+      margin:0 0 16px;
+      font-family:"Gaegu", cursive;
+      font-size:1.7rem;
+      line-height:1.05;
+      color:var(--green);
+    }
+    .review-card cite{ font-style:normal; font-weight:800; color:var(--orange); }
+
+    .contact-map{
+      padding:36px 0 86px;
+      position:relative;
+    }
+    .contact-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:28px;
+      align-items:stretch;
+    }
+    .form-card, .map-card{
+      background:rgba(255,248,236,.92);
+      box-shadow:var(--shadow);
+      padding:28px;
+      min-height:480px;
+      position:relative;
+    }
+    .form-card::before{
+      content:"";
+      position:absolute;
+      top:0; bottom:0; left:21px;
+      border-left:4px double rgba(200,93,40,.24);
+    }
+    .form-card h2{ margin:0 0 22px; padding-left:22px; }
+    form{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:13px;
+      position:relative;
+      z-index:1;
+      padding-left:22px;
+    }
+    label{ display:block; }
+    input, textarea{
+      width:100%;
+      border:1.8px solid rgba(38,53,45,.33);
+      background:#fffdf5;
+      border-radius:14px;
+      padding:14px 15px;
+      font:600 .95rem "Inter", sans-serif;
+      color:var(--green);
+      outline:none;
+      box-shadow:inset 0 1px 0 rgba(111,76,50,.05);
+    }
+    input:focus, textarea:focus{ border-color:var(--orange); box-shadow:0 0 0 4px rgba(200,93,40,.12); }
+    textarea{ min-height:120px; resize:vertical; grid-column:1/-1; }
+    .full{ grid-column:1/-1; }
+    form .btn{ border:0; margin-top:5px; width:max-content; }
+
+    .map-card{
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      background:
+        linear-gradient(45deg, rgba(31,91,64,.08) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(200,93,40,.08) 25%, transparent 25%),
+        #fff7e8;
+      background-size:72px 72px;
+    }
+    .map-illustration{
+      flex:1;
+      border-radius:24px;
+      border:2px dashed rgba(38,53,45,.28);
+      background:
+        linear-gradient(35deg, transparent 0 22%, rgba(31,91,64,.12) 22% 25%, transparent 25% 44%, rgba(31,91,64,.1) 44% 47%, transparent 47%),
+        linear-gradient(125deg, transparent 0 26%, rgba(200,93,40,.12) 26% 29%, transparent 29% 52%, rgba(111,76,50,.12) 52% 55%, transparent 55%),
+        radial-gradient(circle at 66% 45%, rgba(200,93,40,.92) 0 20px, transparent 21px),
+        #f8ead1;
+      position:relative;
+      min-height:330px;
+      overflow:hidden;
+    }
+    .map-illustration::before{
+      content:"PIN";
+      position:absolute;
+      left:58%;
+      top:33%;
+      transform:translate(-50%,-50%);
+      width:64px;
+      height:64px;
+      background:var(--orange);
+      border-radius:50% 50% 50% 0;
+      transform:translate(-50%,-50%) rotate(-45deg);
+      box-shadow:inset 0 0 0 14px var(--orange), inset 0 0 0 23px var(--paper-2);
+      filter:drop-shadow(0 8px 12px rgba(0,0,0,.2));
+    }
+    .map-illustration::after{
+      content:"N ↗";
+      position:absolute;
+      top:24px;
+      right:30px;
+      font-family:"Gaegu", cursive;
+      font-size:2.3rem;
+      color:var(--green);
+      transform:rotate(4deg);
+    }
+    .map-card h2{
+      margin:22px 0 0;
+      text-align:center;
+      color:var(--green);
+      font-family:"Gaegu", cursive;
+      font-size:2.4rem;
+    }
+
+    footer{
+      background:
+        radial-gradient(circle at 80% 20%, rgba(226,137,66,.12), transparent 20%),
+        var(--green);
+      color:#fff3dc;
+      padding:52px 0 26px;
+      position:relative;
+      overflow:hidden;
+    }
+    .footer-grid{
+      display:grid;
+      grid-template-columns:1.25fr 1.2fr 1fr 1fr 1fr;
+      gap:30px;
+      margin-bottom:32px;
+    }
+    footer h3{
+      margin:0 0 14px;
+      color:#ffe5bd;
+      font-family:"Gaegu", cursive;
+      font-size:2rem;
+    }
+    footer p, footer a{
+      color:#f8dfbd;
+      line-height:1.65;
+      font-weight:600;
+      margin:0;
+      display:block;
+    }
+    .footer-brand .logo{ color:#fff3dc; margin-bottom:14px; }
+    .footer-brand .logo-mark{ background:rgba(255,248,236,.1); border-color:#fff3dc; box-shadow:4px 5px 0 rgba(226,137,66,.34); }
+    .social a{ margin:6px 0; }
+    .final-line{
+      border-top:1px dashed rgba(255,244,223,.38);
+      padding-top:22px;
+      text-align:center;
+      font-family:"Gaegu", cursive;
+      font-size:1.45rem;
+      color:#fff7e8;
+    }
+
+    .leaf-left{ left:12px; top:1150px; font-size:3.5rem; transform:rotate(-22deg); }
+    .leaf-right{ right:14px; top:910px; font-size:3.7rem; transform:rotate(26deg); }
+    .tomato{ right:40px; top:1580px; font-size:3rem; transform:rotate(-8deg); }
+    .grain{ left:30px; top:2010px; font-size:3.5rem; }
+
+
+    .food-card.menu-changing{
+      animation: menuPop .28s ease both;
+    }
+    @keyframes menuPop{
+      from{ opacity:0; transform:translateY(14px) rotate(-.5deg) scale(.98); }
+      to{ opacity:1; transform:translateY(0) rotate(var(--r, 0deg)) scale(1); }
+    }
+
+
+    /* Enhanced animation + interaction */
+    .page-loaded .hero h1,
+    .page-loaded .hero p,
+    .page-loaded .hero-actions{
+      animation: heroReveal .8s cubic-bezier(.2,.8,.2,1) both;
+    }
+    .page-loaded .hero p{ animation-delay:.12s; }
+    .page-loaded .hero-actions{ animation-delay:.22s; }
+
+    @keyframes heroReveal{
+      from{ opacity:0; transform:translateY(24px) scale(.98); }
+      to{ opacity:1; transform:translateY(0) scale(1); }
+    }
+
+    @keyframes floatLabel{
+      0%,100%{ transform:translateY(0) rotate(var(--rot,0deg)); }
+      50%{ transform:translateY(-13px) rotate(var(--rot,0deg)); }
+    }
+
+    .reveal{
+      opacity:0;
+      transform:translateY(34px);
+      transition:opacity .65s ease, transform .65s ease;
+    }
+    .reveal.visible{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    .tab{
+      transition:transform .22s ease, color .22s ease, background .22s ease;
+      border-radius:16px;
+    }
+    .tab:hover{
+      color:var(--orange);
+      background:rgba(200,93,40,.08);
+      transform:translateY(-3px) rotate(-1deg);
+    }
+
+    .food-card{
+      cursor:pointer;
+      position:relative;
+    }
+    .food-card::before{
+      content:"View dish story";
+      position:absolute;
+      top:22px;
+      right:22px;
+      z-index:3;
+      background:rgba(16,59,43,.92);
+      color:#fff7e8;
+      font-family:"Gaegu", cursive;
+      font-size:1.05rem;
+      padding:8px 12px;
+      border-radius:999px;
+      transform:translateY(-8px);
+      opacity:0;
+      transition:.25s ease;
+      pointer-events:none;
+    }
+    .food-card:hover::before{
+      opacity:1;
+      transform:translateY(0);
+    }
+    .food-card img{
+      transition:transform .35s ease, filter .35s ease;
+    }
+    .food-card:hover img{
+      transform:scale(1.055);
+      filter:saturate(1.12) contrast(1.03);
+    }
+
+    .food-card.selected{
+      outline:3px solid var(--orange);
+      outline-offset:5px;
+      transform:translateY(-8px) rotate(0deg) scale(1.01);
+    }
+
+    .dish-modal{
+      position:fixed;
+      inset:0;
+      z-index:999;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:22px;
+      background:rgba(8,24,18,.62);
+      backdrop-filter:blur(8px);
+    }
+    .dish-modal.open{ display:flex; animation:fadeIn .18s ease both; }
+    @keyframes fadeIn{ from{opacity:0} to{opacity:1} }
+
+    .dish-modal-card{
+      width:min(760px, 100%);
+      background:var(--paper-2);
+      border:2px solid var(--line);
+      border-radius:32px;
+      box-shadow:0 30px 80px rgba(0,0,0,.35);
+      overflow:hidden;
+      transform:rotate(-.4deg);
+      animation:modalPop .24s ease both;
+    }
+    @keyframes modalPop{
+      from{ opacity:0; transform:translateY(22px) scale(.96) rotate(-.4deg); }
+      to{ opacity:1; transform:translateY(0) scale(1) rotate(-.4deg); }
+    }
+    .dish-modal-image{
+      height:290px;
+      width:100%;
+      object-fit:cover;
+    }
+    .dish-modal-body{
+      padding:24px;
+    }
+    .dish-modal-body h3{
+      margin:0 0 8px;
+      color:var(--green);
+      font-family:"Gaegu", cursive;
+      font-size:3rem;
+      line-height:.9;
+    }
+    .dish-modal-body p{
+      margin:0 0 18px;
+      color:var(--muted);
+      line-height:1.65;
+      font-weight:600;
+    }
+    .dish-modal-meta{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .modal-close{
+      border:0;
+      background:var(--green);
+      color:#fff7e8;
+      border-radius:999px;
+      padding:11px 18px;
+      font-family:"Gaegu", cursive;
+      font-size:1.2rem;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    .reservation-toast{
+      position:fixed;
+      left:50%;
+      bottom:24px;
+      transform:translateX(-50%) translateY(20px);
+      z-index:1000;
+      background:var(--green);
+      color:#fff7e8;
+      border:2px solid rgba(255,255,255,.45);
+      box-shadow:0 20px 50px rgba(0,0,0,.25);
+      padding:14px 22px;
+      border-radius:999px;
+      font-weight:800;
+      opacity:0;
+      pointer-events:none;
+      transition:.28s ease;
+    }
+    .reservation-toast.show{
+      opacity:1;
+      transform:translateX(-50%) translateY(0);
+    }
+
+    .icon{
+      width:38px;
+      height:38px;
+      border:2px dashed var(--orange);
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      font-family:"Gaegu", cursive;
+      font-size:.9rem !important;
+      font-weight:700;
+      color:var(--orange);
+    }
+
+
+    @media (max-width: 960px){
+      .nav{ flex-wrap:wrap; padding:14px 0 18px; }
+      nav{ order:3; width:100%; overflow:auto; }
+      nav ul{ justify-content:flex-start; min-width:max-content; }
+      .food-grid,.review-grid{ grid-template-columns:1fr 1fr; }
+      .specials-grid{ grid-template-columns:1fr 1fr; }
+      .info-card{ grid-template-columns:1fr 1fr; }
+      .info-item:nth-child(2){ border-right:0; }
+      .contact-grid{ grid-template-columns:1fr; }
+      .footer-grid{ grid-template-columns:1fr 1fr; }
+    }
+
+    @media (max-width: 640px){
+      .container{ width:min(100% - 24px, 1180px); }
+      .nav .btn{ display:none; }
+      .hero{ min-height:640px; }
+      .hero-inner{ padding:74px 0 120px; }
+      .hero h1{ font-size:4.7rem; }
+      .food-grid,.review-grid,.specials-grid,.info-card,.footer-grid{ grid-template-columns:1fr; }
+      .info-item{ border-right:0; border-bottom:1px solid rgba(111,76,50,.18); padding-bottom:18px; }
+      .info-item:last-child{ border-bottom:0; }
+      form{ grid-template-columns:1fr; padding-left:16px; }
+      .form-card h2{ padding-left:16px; }
+      .tab{ font-size:1.4rem; padding:10px 15px; }
+      .menu-intro{ display:block; }
+      .hero .hero-icon{ opacity:.45; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="#" class="logo" aria-label="Hungry Globe home">
+        <span class="logo-mark">HG</span>
+        <span class="logo-text"><strong>Hungry<br>Globe</strong><span>Eat Global, Think Local</span></span>
+      </a>
+
+      <nav aria-label="Main navigation">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#specials">Chef Specials</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <a class="btn orange" href="#contact">Reserve a Table</a>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <span class="scribble fork">fork</span>
+      <span class="scribble spoon">spoon</span>
+      <span class="scribble globe">◎</span>
+      <span class="scribble leaf">⌁ leaves</span>
+      <span class="scribble spice">✦ spices</span>
+
+      <div class="container hero-inner">
+        <h1>Travel the World<br>Through Food.</h1>
+        <p>A rotating international bistro serving comfort food, cultural stories, and student-friendly global flavors.</p>
+        <div class="hero-actions">
+          <a href="#menu" class="btn green">Explore Menu</a>
+          <a href="#contact" class="btn orange">Book a Table</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="tabs-wrap" aria-label="Menu categories">
+      <div class="container tabs">
+        <button class="tab active" type="button" data-week="nepal">Nepal Week</button>
+        <button class="tab" type="button" data-week="japan">Japan Week</button>
+        <button class="tab" type="button" data-week="mexico">Mexico Week</button>
+        <button class="tab" type="button" data-week="finland">Finland Specials</button>
+        <button class="tab" type="button" data-week="drinks">Drinks</button>
+      </div>
+    </section>
+
+    <section class="menu-section" id="menu">
+      <span class="doodle leaf-left">✿</span>
+      <span class="doodle leaf-right">❧</span>
+      <div class="container">
+        <div class="menu-intro">
+          <div>
+            <p class="section-kicker">Rotating Cuisine Weeks</p>
+            <h2 class="section-title" id="menuTitle">Nepal Week Menu</h2>
+          </div>
+          <p>Every country week brings comfort food, cultural stories, and affordable dishes designed for students, locals, and global food lovers.</p>
+        </div>
+
+        <div class="food-grid" id="foodGrid">
+          <article class="food-card sketch-border" tabindex="0" data-name="Chicken Momo" data-desc="Steamed dumplings with roasted tomato achar." data-label="Signature Dish" data-price="€14" da[...]
+            <img src="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=900&q=80" alt="Chicken momo dumplings with tomato achar">
+            <div class="content">
+              <h3>Chicken Momo</h3>
+              <p>Steamed dumplings with roasted tomato achar.</p>
+              <div class="food-foot"><span class="badge">Signature Dish</span><span class="price">€14</span></div>
+            </div>
+          </article>
+
+          <article class="food-card sketch-border" tabindex="0" data-name="Samosas" data-desc="Spiced potatoes, peas, tamarind chutney." data-label="Vegan" data-price="€7" data-img="https://ima[...]
+            <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=900&q=80" alt="Samosas with tamarind chutney">
+            <div class="content">
+              <h3>Samosas</h3>
+              <p>Spiced potatoes, peas, tamarind chutney.</p>
+              <div class="food-foot"><span class="badge">Vegan</span><span class="price">€7</span></div>
+            </div>
+          </article>
+
+          <article class="food-card sketch-border" tabindex="0" data-name="Karaage Chicken Donburi" data-desc="Japanese fried chicken, rice, spicy mayo." data-label="Chef Favorite" data-price="��[...]
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80" alt="Karaage chicken donburi rice bowl">
+            <div class="content">
+              <h3>Karaage Chicken Donburi</h3>
+              <p>Japanese fried chicken, rice, spicy mayo.</p>
+              <div class="food-foot"><span class="badge" style="color:var(--orange)">Chef Favorite</span><span class="price">€14</span></div>
+            </div>
+          </article>
+
+          <article class="food-card sketch-border" tabindex="0" data-name="Nordic Salmon Maki" data-desc="Local fish with pickled ginger." data-label="Pescatarian" data-price="€17" data-img="ht[...]
+            <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=900&q=80" alt="Nordic salmon maki sushi">
+            <div class="content">
+              <h3>Nordic Salmon Maki</h3>
+              <p>Local fish with pickled ginger.</p>
+              <div class="food-foot"><span class="badge" style="color:#2f6d8a">Pescatarian</span><span class="price">€17</span></div>
+            </div>
+[...]
